@@ -882,7 +882,7 @@ footer p { font-size: .75rem; color: rgba(255,255,255,.3); }
     <form id="bookForm" novalidate>
       <div class="fg">
         <label for="bSvc">Service</label>
-        <select id="bSvc" required aria-required="true">
+        <select id="bSvc" name="Service" required aria-required="true">
           <option value="">Select a service...</option>
           <option value="basic">Basic Detail — starting at $119</option>
           <option value="interior">Interior Detail — starting at $129</option>
@@ -891,19 +891,19 @@ footer p { font-size: .75rem; color: rgba(255,255,255,.3); }
       </div>
       <div class="fg">
         <label for="bName">Full Name</label>
-        <input type="text" id="bName" required aria-required="true" placeholder="Your name" autocomplete="name">
+        <input type="text" id="bName" name="Name" required aria-required="true" placeholder="Your name" autocomplete="name">
       </div>
       <div class="fg">
         <label for="bPhone">Phone</label>
-        <input type="tel" id="bPhone" required aria-required="true" placeholder="(905) 000-0000" autocomplete="tel">
+        <input type="tel" id="bPhone" name="Phone" required aria-required="true" placeholder="(905) 000-0000" autocomplete="tel">
       </div>
       <div class="fg">
         <label for="bVehicle">Make / Model <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
-        <input type="text" id="bVehicle" placeholder="e.g. Toyota Camry, BMW M5, Honda Civic">
+        <input type="text" id="bVehicle" name="Vehicle">
       </div>
       <div class="fg">
         <label for="bComment">Comments <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
-        <textarea id="bComment" placeholder="Anything we should know? Special requests, condition of the vehicle, etc." rows="3"></textarea>
+        <textarea id="bComment" name="Comments" placeholder="Anything we should know? Special requests, condition of the vehicle, etc." rows="3"></textarea>
       </div>
       <button type="submit" class="btn btn-red modal-submit">Confirm Booking</button>
     </form>
@@ -989,16 +989,28 @@ document.getElementById('bookOverlay').addEventListener('click', e => {
 });
 addEventListener('keydown', e => { if (e.key === 'Escape') closeBook(); });
 
-document.getElementById('bookForm').addEventListener('submit', e => {
+document.getElementById('bookForm').addEventListener('submit', async e => {
   e.preventDefault();
   if (!e.target.checkValidity()) { e.target.reportValidity(); return; }
   const btn = e.target.querySelector('[type=submit]');
   btn.textContent = 'Sending…'; btn.disabled = true;
-  setTimeout(() => {
-    closeBook(); e.target.reset();
+  try {
+    const res = await fetch('https://formspree.io/f/xgornojz', {
+      method: 'POST',
+      body: new FormData(e.target),
+      headers: { Accept: 'application/json' }
+    });
+    if (res.ok) {
+      closeBook(); e.target.reset();
+      btn.textContent = 'Confirm Booking'; btn.disabled = false;
+      alert("You're booked! We'll confirm within a few hours. See you soon.");
+    } else {
+      throw new Error();
+    }
+  } catch {
     btn.textContent = 'Confirm Booking'; btn.disabled = false;
-    alert("You're booked! We'll confirm within a few hours. See you soon.");
-  }, 900);
+    alert('Something went wrong. Please call us at (905) 348-0135.');
+  }
 });
 
 </script>
