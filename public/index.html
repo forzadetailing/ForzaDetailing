@@ -380,7 +380,6 @@ footer p { font-size: .75rem; color: rgba(255,255,255,.3); }
 /* ─── Sticky mobile bar ───────────────────────────────── */
 .mobile-bar { display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 800; padding: 1rem 1.5rem; gap: .75rem; background: rgba(12,12,12,.96); backdrop-filter: blur(12px); border-top: 1px solid rgba(255,255,255,.08); }
 .mobile-bar .btn { flex: 1; }
-@media (max-width: 768px) { .mobile-bar { display: flex; } body { padding-bottom: 80px; } }
 
 /* ─── Modal ───────────────────────────────────────────── */
 .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.8); z-index: 1000; align-items: center; justify-content: center; padding: 1rem; backdrop-filter: blur(10px); }
@@ -872,9 +871,6 @@ footer p { font-size: .75rem; color: rgba(255,255,255,.3); }
 </footer>
 
 <!-- STICKY MOBILE BAR -->
-<div class="mobile-bar">
-  <a href="tel:+19053480135" class="btn btn-outline" style="width:100%;justify-content:center">Call Now</a>
-</div>
 
 <!-- BOOKING MODAL -->
 <div class="overlay" id="bookOverlay" role="dialog" aria-modal="true" aria-labelledby="bookTitle">
