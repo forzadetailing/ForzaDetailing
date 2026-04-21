@@ -59,7 +59,8 @@ ul { list-style: none; }
 /* ─── Layout ──────────────────────────────────────────── */
 .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
 section { padding: 7rem 0; }
-@media (max-width: 768px) { section { padding: 5rem 0; } .price-feats { display: none; } }
+@media (max-width: 768px) { section { padding: 5rem 0; } .price-feats { display: none; } .price-feats.open { display: block; } .price-toggle { display: flex; align-items: center; gap: .4rem; background: none; border: none; font-family: var(--f); font-size: .8rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; cursor: pointer; padding: 0 0 1.25rem; color: var(--red); } .price-toggle svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2.5; transition: transform .25s; } .price-toggle.open svg { transform: rotate(180deg); } }
+@media (min-width: 769px) { .price-toggle { display: none; } }
 
 /* ─── Buttons ─────────────────────────────────────────── */
 .btn {
@@ -786,6 +787,7 @@ footer p { font-size: .75rem; color: rgba(255,255,255,.3); }
           <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Window clean</li>
           <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Interior vacuum</li>
         </ul>
+        <button class="price-toggle" onclick="event.stopPropagation();toggleFeats(this)">View details <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>
         <button class="btn btn-outline" onclick="openBook()">Book This Service</button>
       </div>
       <div class="price-card price-card--feat sr sr-d2" onclick="openBook()">
@@ -801,6 +803,7 @@ footer p { font-size: .75rem; color: rgba(255,255,255,.3); }
           <li style="color:rgba(255,255,255,.7)"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Paint sealant coating</li>
           <li style="color:rgba(255,255,255,.7)"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Premium finishing</li>
         </ul>
+        <button class="price-toggle" style="color:#fff" onclick="event.stopPropagation();toggleFeats(this)">View details <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>
         <button class="btn btn-red" onclick="openBook()">Book This Service</button>
       </div>
       <div class="price-card sr sr-d3" onclick="openBook()">
@@ -814,6 +817,7 @@ footer p { font-size: .75rem; color: rgba(255,255,255,.3); }
           <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Leather &amp; fabric care</li>
           <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Odor elimination</li>
         </ul>
+        <button class="price-toggle" onclick="event.stopPropagation();toggleFeats(this)">View details <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>
         <button class="btn btn-outline" onclick="openBook()">Book This Service</button>
       </div>
     </div>
@@ -995,6 +999,14 @@ document.getElementById('bookOverlay').addEventListener('click', e => {
   if (e.target === e.currentTarget) closeBook();
 });
 addEventListener('keydown', e => { if (e.key === 'Escape') closeBook(); });
+
+/* ── Pricing toggle ────────────────── */
+function toggleFeats(btn) {
+  const feats = btn.previousElementSibling;
+  const open = feats.classList.toggle('open');
+  btn.classList.toggle('open', open);
+  btn.childNodes[0].textContent = open ? 'Hide details ' : 'View details ';
+}
 
 document.getElementById('bookForm').addEventListener('submit', async e => {
   e.preventDefault();
